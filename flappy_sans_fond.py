@@ -7,7 +7,7 @@ import random
 
 #test de clémence 
 import os
-#os.chdir("/Users/clemence/Documents/GitHub/TDLOG")
+os.chdir("/Users/clemence/Documents/GitHub/TDLOG")
 
 
 
@@ -112,7 +112,7 @@ class Character:
             
             
 class Game(object):
-    def __init__(self):
+    def __init__(self,nWalls): #
         self.mainScreen = True
         self.startGame = False
         self.gameOver = False
@@ -120,11 +120,27 @@ class Game(object):
         pygame.font.init()
         self.font = pygame.font.Font('iomanoid.ttf',70)
         self.player = Character()
-        self.wall1 = Wall()
-        self.wall1.x = 400
-        self.wall1.upRect[0] = 400
-        self.wall1.downRect[0] = 400
-        self.wall2 = Wall()
+        self.spaceBtwnWall = 480 # 
+        
+        #
+        self.nWalls = nWalls
+        self.walls = [] #
+        
+        currentWall = Wall()
+        currentWall.x = 400
+        currentWall.downRect[0] = 400
+        self.walls.append(currentWall)
+        
+        for i in range (nWalls-1):
+            self.walls.append(Wall())  
+        #
+             
+        #self.wall1 = Wall()
+        #self.wall1.x = 400
+        #self.wall1.upRect[0] = 400
+        #self.wall1.downRect[0] = 400
+        #self.wall2 = Wall()
+        
         self.counter = Counter()
         
     def reset(self):
@@ -132,11 +148,13 @@ class Game(object):
         self.startGame = False
         self.gameOver = False
         self.player.reset()
-        self.wall1.reset()
-        self.wall1.x = 400
-        self.wall1.upRect[0] = 400
-        self.wall1.downRect[0] = 400
-        self.wall2 = Wall()
+        self.walls[0].reset()#
+        self.walls[0].x = 400#
+        self.walls[0].upRect[0] = 400#
+        self.walls[0].downRect[0] = 400#
+        for i in range(self.nWalls-1):#
+            self.walls[i] = Wall()#
+            
         self.counter.reset()
         
     def check_input(self):
@@ -240,4 +258,4 @@ class Game(object):
                 
 
 if __name__ == "__main__":
-    Game().main()
+    Game(2).main()
