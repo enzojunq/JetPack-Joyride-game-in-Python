@@ -5,6 +5,7 @@ from pygame.locals import *
 import sys
 import random
 
+#test de clémence 
 
 screen = pygame.display.set_mode((480*2-80, 708))
 background = pygame.image.load("assets/background.bmp").convert()
