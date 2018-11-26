@@ -6,6 +6,10 @@ import sys
 import random
 
 #test de clémence 
+import os
+#os.chdir("/Users/clemence/Documents/GitHub/TDLOG")
+
+
 
 screen = pygame.display.set_mode((480*2-80, 708))
 background = pygame.image.load("assets/background.bmp").convert()
