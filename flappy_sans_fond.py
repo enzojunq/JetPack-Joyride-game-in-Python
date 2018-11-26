@@ -169,12 +169,21 @@ class Game(object):
             self.player.down = 1
         
     def check_collisions(self):
-        if (self.wall1.upRect.colliderect(self.player.rect) or
-            self.wall1.downRect.colliderect(self.player.rect) or
-            self.wall2.upRect.colliderect(self.player.rect) or
-            self.wall2.downRect.colliderect(self.player.rect)):
-            self.gameOver = True
-            self.startGame = False
+        
+        #
+        for i in range(self.nWalls):
+            if(self.walls[i].upRect.colliderect(self.player.rect) or
+            self.walls[i].downRect.colliderect(self.player.rect)):
+                self.gameOver = True
+                self.startGame = False
+         #
+            
+       # if (self.wall1.upRect.colliderect(self.player.rect) or
+            # self.wall1.downRect.colliderect(self.player.rect) or
+            # self.wall2.upRect.colliderect(self.player.rect) or
+            # self.wall2.downRect.colliderect(self.player.rect)):
+            # self.gameOver = True
+            # self.startGame = False
             
     def create_main_menu(self):
         self.clock.tick(60)
@@ -221,13 +230,13 @@ class Game(object):
         screen.fill((255, 255, 255))
         screen.blit(background, (0, 0))
         screen.blit(walls[1],
-                    (self.wall1.x, 360 + self.wall1.gap - self.wall1.y))
+                    (self.walls[0].x, 360 + self.walls[0].gap - self.walls[0].y))
         screen.blit(walls[0],
-                    (self.wall1.x, 0 - self.wall1.gap - self.wall1.y))
+                    (self.walls[0].x, 0 - self.walls[0].gap - self.walls[0].y))
         screen.blit(walls[1],
-                    (self.wall2.x, 360 + self.wall2.gap - self.wall2.y))
+                    (self.walls[1].x, 360 + self.walls[1].gap - self.walls[1].y))
         screen.blit(walls[0],
-                    (self.wall2.x, 0 - self.wall2.gap - self.wall2.y))
+                    (self.walls[1].x, 0 - self.walls[1].gap - self.walls[1].y))
         screen.blit(self.font.render(str(self.counter.value),
                                      -1,
                                      (255, 255, 255)),
@@ -248,8 +257,8 @@ class Game(object):
                 self.clock.tick(60)
                 self.check_input()
                 self.print_game()
-                self.wall1.update(self.counter)
-                self.wall2.update(self.counter)
+                for i in range(self.nWalls):
+                    self.walls[i].update(self.counter)
                 self.player.update()
                 self.check_collisions()
                 pygame.display.update()
