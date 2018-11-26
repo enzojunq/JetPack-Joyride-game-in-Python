@@ -16,14 +16,14 @@ background = pygame.image.load("assets/background.bmp").convert()
 characterSprites = [pygame.image.load("assets/1.bmp").convert(),
                          pygame.image.load("assets/2.bmp").convert(),
                          pygame.image.load("assets/dead.bmp")]
-walls = [pygame.image.load("assets/bottom.bmp").convert(),
+imWalls = [pygame.image.load("assets/bottom.bmp").convert(),
               pygame.image.load("assets/top.bmp").convert()]
 for i in range(len(characterSprites)):
     characterSprites[i].set_colorkey((0, 0, 0))
     pygame.Surface.convert_alpha(characterSprites[i])
-for i in range(len(walls)):
-    walls[i].set_colorkey((0, 0, 0))
-    pygame.Surface.convert_alpha(walls[i])
+for i in range(len(imWalls)):
+    imWalls[i].set_colorkey((0, 0, 0))
+    pygame.Surface.convert_alpha(imWalls[i])
             
             
 
@@ -45,12 +45,12 @@ class Wall:
         self.y = random.randint(-110, 110)
         self.upRect = pygame.Rect(self.x,
                                   360 + self.gap - self.y + 10,
-                                  walls[1].get_width() - 10,
-                                  walls[1].get_height())
+                                  imWalls[1].get_width() - 10,
+                                  imWalls[1].get_height())
         self.downRect = pygame.Rect(self.x,
                                     0 - self.gap - self.y - 10,
-                                    walls[0].get_width() - 10,
-                                    walls[0].get_height())
+                                    imWalls[0].get_width() - 10,
+                                    imWalls[0].get_height())
         self.direction = random.choice([-1,1])
         self.speed = random.randint(0,2)
         
@@ -75,12 +75,12 @@ class Wall:
         self.y = random.randint(-110, 110) 
         self.upRect = pygame.Rect(self.x,
                                   360 + self.gap - self.y + 10,
-                                  walls[1].get_width() - 10,
-                                  walls[1].get_height())
+                                  imWalls[1].get_width() - 10,
+                                  imWalls[1].get_height())
         self.downRect = pygame.Rect(self.x,
                                     0 - self.gap - self.y - 10,
-                                    walls[0].get_width() - 10,
-                                    walls[0].get_height())
+                                    imWalls[0].get_width() - 10,
+                                    imWalls[0].get_height())
         self.direction = random.choice([-1,1])
         self.speed = random.randint(0,5)
         
@@ -229,13 +229,14 @@ class Game(object):
     def print_game(self):
         screen.fill((255, 255, 255))
         screen.blit(background, (0, 0))
-        screen.blit(walls[1],
+        
+        screen.blit(imWalls[1],
                     (self.walls[0].x, 360 + self.walls[0].gap - self.walls[0].y))
-        screen.blit(walls[0],
+        screen.blit(imWalls[0],
                     (self.walls[0].x, 0 - self.walls[0].gap - self.walls[0].y))
-        screen.blit(walls[1],
+        screen.blit(imWalls[1],
                     (self.walls[1].x, 360 + self.walls[1].gap - self.walls[1].y))
-        screen.blit(walls[0],
+        screen.blit(imWalls[0],
                     (self.walls[1].x, 0 - self.walls[1].gap - self.walls[1].y))
         screen.blit(self.font.render(str(self.counter.value),
                                      -1,
