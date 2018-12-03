@@ -3,7 +3,7 @@
 """
 Created on Mon Nov 28 16:43:11 2018
 
-@author: hugo
+@authors: Hugo Laurencon, Louis Ravillon, Clemence Barillot
 """
 
 import pygame
@@ -16,6 +16,19 @@ from math import floor
 width_window = 748
 height_window = 565
 
+
+class Best_score:
+    def __init__(self):
+        file = open("best_score.txt", "r")
+        self.value = int(file.read())
+        file.close()
+        
+    def update(self, new_best_score):
+        self.value = new_best_score
+        file = open("best_score.txt", "w")
+        file.write(str(new_best_score))
+        file.close()
+        
 
 class Counter:
     def __init__(self):
@@ -51,6 +64,28 @@ class Beam:
         self.rect[0] = self.x
         if ((self.x + self.image[self.index].get_width() < floor(width_window/11)) and (self.x + self.image[self.index].get_width() >= floor(width_window/11) - step)) :
             Counter.update()
+            
+    
+class Rocket:
+    def __init__(self, x, y):
+        self.image = [pygame.image.load("assets/rocket_warning.bmp").convert(),
+                      pygame.image.load("assets/rocket.bmp").convert()]
+        for i in range(len(self.image)):
+            self.image[i].set_colorkey((0, 0, 0))
+            pygame.Surface.convert_alpha(self.image[i])
+        self.x = x
+        self.y = y
+        self.rect = pygame.Rect(self.x,
+                                self.y,
+                                self.image[1].get_width(),
+                                self.image[1].get_height())
+        
+    def update(self, step, player):
+        self.x -= step
+        self.rect[0] = self.x
+        if (self.x > width_window):
+            self.y = player.y
+            self.rect[1] = self.y
     
     
 class Wall:
@@ -140,6 +175,7 @@ class Game(object):
         self.step_player = 5
         self.step_wall = 5
         self.step_beam = 5
+        self.step_rocket = 10
         self.gravity = 5
         self.gap_wall = 200
         self.gap_btw_walls = width_window/4
@@ -150,6 +186,8 @@ class Game(object):
         self.mode = 1
         self.walls = []
         self.beams = []
+        self.rockets = []
+        self.best_score = Best_score()
         
     def reset(self):
         self.mainScreen = True
@@ -159,9 +197,11 @@ class Game(object):
         self.counter.reset()
         self.step_wall = 5
         self.step_beam = 5
+        self.step_rocket = 10
         self.mode = 1
         self.walls = []
         self.beams = []
+        self.rockets = []
         
     def check_input(self):
         events = pygame.event.get()
@@ -176,6 +216,10 @@ class Game(object):
         if (self.mode == 1):
             for i in range(len(self.beams)):
                 if (self.beams[i].rect.colliderect(self.player.rect)):
+                    self.gameOver = True
+                    self.startGame = False
+            for i in range(len(self.rockets)):
+                if (self.rockets[i].rect.colliderect(self.player.rect)):
                     self.gameOver = True
                     self.startGame = False
         elif (self.mode == 2):
@@ -222,11 +266,14 @@ class Game(object):
                                      -1,
                                      (255, 255, 255)),
                                      (width_window/8, height_window/2))
-        self.screen.blit(self.font.render("Best score: " + str(self.counter.value),
+        self.screen.blit(self.font.render("Best score: " + str(self.best_score.value),
                                      -1,
                                      (255, 255, 255)),
                                      (width_window/8, 3*height_window/4))
         pygame.display.update()
+        
+        if (self.counter.value > self.best_score.value):
+            self.best_score.update(self.counter.value)
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -244,22 +291,30 @@ class Game(object):
                                            random.randint(0, 4)))
                     self.beams[-1].y = random.randint(80, height_window - self.beams[-1].image[self.beams[-1].index].get_height() - 80)
                     self.beams[-1].rect[1] = self.beams[-1].y
+                nb_rockets = floor(nb_beams/5)
+                for i in range(nb_rockets):
+                    self.rockets.append(Rocket(random.randint(floor(self.step_rocket/self.step_beam)*2*width_window, floor(self.step_rocket/self.step_beam)*self.beams[-1].x), 0))
             if (self.beams[-1].x <= -self.beams[-1].image[self.beams[-1].index].get_width()):
                 self.beams = []
+                self.rockets = []
                 self.mode = 2
                 if (self.step_beam < 10):
                     self.step_beam += 1
-                    self.clock.tick(60)
-                    self.check_input()
-                    self.print_game()
-                    self.player.update(self.step_player)
-                    pygame.display.update()
+                if (self.step_rocket < 20):
+                    self.step_rocket += 1
+                self.clock.tick(60)
+                self.check_input()
+                self.print_game()
+                self.player.update(self.step_player)
+                pygame.display.update()
             else:
                 self.clock.tick(60)
                 self.check_input()
                 self.print_game()
                 for i in range(len(self.beams)):
                     self.beams[i].update(self.step_beam, self.counter)
+                for i in range(len(self.rockets)):
+                    self.rockets[i].update(self.step_rocket, self.player)
                 self.player.update(self.step_player)
                 self.check_collisions()
                 pygame.display.update()
@@ -299,6 +354,12 @@ class Game(object):
         for i in range(len(self.beams)):
             self.screen.blit(self.beams[i].image[self.beams[i].index],
                              (self.beams[i].x, self.beams[i].y))
+        for i in range(len(self.rockets)):
+            self.screen.blit(self.rockets[i].image[1],
+                            (self.rockets[i].x, self.rockets[i].y))
+            if ((self.rockets[i].x > width_window) and (self.rockets[i].x <= 2*width_window)):
+                self.screen.blit(self.rockets[i].image[0],
+                            (width_window - self.rockets[i].image[0].get_width(), self.rockets[i].y))
         for i in range(len(self.walls)):
             self.screen.blit(self.walls[i].image[1],
                              (self.walls[i].x, height_window/3 + self.walls[i].gap - self.walls[i].y))
