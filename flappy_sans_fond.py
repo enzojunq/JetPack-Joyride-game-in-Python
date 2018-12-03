@@ -229,19 +229,15 @@ class Game(object):
     def print_game(self):
         screen.fill((255, 255, 255))
         screen.blit(background, (0, 0))
+
+        for i in range(self.nWalls):
+            
+            screen.blit(imWalls[1],
+                    (self.walls[i].x, 360 + self.walls[i].gap - self.walls[i].y))
+            screen.blit(imWalls[0],
+                    (self.walls[i].x, 0 - self.walls[i].gap - self.walls[i].y))
         
-        screen.blit(imWalls[1],
-                    (self.walls[0].x, 360 + self.walls[0].gap - self.walls[0].y))
-        screen.blit(imWalls[0],
-                    (self.walls[0].x, 0 - self.walls[0].gap - self.walls[0].y))
-        screen.blit(imWalls[1],
-                    (self.walls[1].x, 360 + self.walls[1].gap - self.walls[1].y))
-        screen.blit(imWalls[0],
-                    (self.walls[1].x, 0 - self.walls[1].gap - self.walls[1].y))
-        screen.blit(self.font.render(str(self.counter.value),
-                                     -1,
-                                     (255, 255, 255)),
-                                     (440, 50))
+        screen.blit(self.font.render(str(self.counter.value), -1, (255, 255, 255)), (440, 50))
         if self.gameOver:
             self.player.sprite = 2
         elif self.player.up:
