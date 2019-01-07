@@ -11,6 +11,10 @@ from pygame.locals import *
 import random
 from math import floor
 
+import os
+os.chdir("/Users/clemence/Documents/GitHub/TDLOG")
+
+
 
 width_window = 748
 height_window = 565
@@ -272,7 +276,7 @@ class Character:
                       pygame.image.load("assets/walk1.bmp").convert(),
                       pygame.image.load("assets/walk2.bmp").convert()]
         for i in range(len(self.image)):
-            self.image[i].set_colorkey((0, 0, 0))
+            self.image[i].set_colorkey((255, 255, 255)) #modif au lieu de 0 0 0
             pygame.Surface.convert_alpha(self.image[i])
         self.rect = pygame.Rect(x,
                                 y,
@@ -445,11 +449,11 @@ class Game(object):
         keys = check_input()
         if keys[K_UP] and not self.player.dead:
             self.player.up = 1
-        pygame.time.delay(16 - time_loop)
+        pygame.time.delay(30 - time_loop)
         #clock.tick(60)
         #print(clock.get_time())
         #print(pygame.time.get_ticks())
-        #print(clock.get_fps())
+        print(clock.get_fps())
         print(time_loop)
         self.print_game(screen)
         if self.mode.end:
@@ -491,7 +495,7 @@ def main():
             time_before_loop = pygame.time.get_ticks()
             game.update(screen, clock, time_loop)
             time_after_loop = pygame.time.get_ticks()
-            time_loop = time_after_loop - time_before_loop - (16 - previous_time_loop)
+            time_loop = time_after_loop - time_before_loop - (30 - previous_time_loop)
             previous_time_loop = time_loop
             done = done_with_game()
         gameover = GameOver(game.counter)
