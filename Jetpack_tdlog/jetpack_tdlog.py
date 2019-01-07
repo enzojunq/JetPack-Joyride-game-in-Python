@@ -5,6 +5,9 @@ Created on Mon Nov 28 16:43:11 2018
 
 @authors: Hugo Laurencon, Louis Ravillon, Clemence Barillot
 """
+import os
+os.chdir("/Users/clemence/Documents/GitHub/TDLOG/Jetpack_tdlog")
+
 
 import pygame
 from pygame.locals import *
@@ -173,7 +176,7 @@ class Game(object):
         pygame.font.init()
         self.font = pygame.font.Font('font.ttf',70)
         self.step_player = 5
-        self.step_wall = 5
+        self.step_wall = 5  
         self.step_beam = 5
         self.step_rocket = 10
         self.gravity = 5
