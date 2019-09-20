@@ -1,1 +1,1 @@
-# TDLOG
+# JetPack Joyride game in Python
