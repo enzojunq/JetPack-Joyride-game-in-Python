@@ -120,10 +120,10 @@ class Counter:
         
 class Beam:
     def __init__(self, x, y, index):
-        self.image = [pygame.image.load("assets/beam0.bmp").convert(),
-                      pygame.image.load("assets/beam2.bmp").convert(),
-                      pygame.image.load("assets/beam3.bmp").convert(),
-                      pygame.image.load("assets/beam4.bmp").convert()]
+        self.image = [pygame.image.load("assets/beam0.bmp").convert_alpha(),
+                      pygame.image.load("assets/beam2.bmp").convert_alpha(),
+                      pygame.image.load("assets/beam3.bmp").convert_alpha(),
+                      pygame.image.load("assets/beam4.bmp").convert_alpha()]
         for image in self.image:
             image.set_colorkey((0, 0, 0))
             pygame.Surface.convert_alpha(image)
@@ -150,8 +150,8 @@ class Beam:
     
 class Rocket:
     def __init__(self, x, y):
-        self.image = [pygame.image.load("assets/rocket_warning.bmp").convert(),
-                      pygame.image.load("assets/rocket.bmp").convert()]
+        self.image = [pygame.image.load("assets/rocket_warning.bmp").convert_alpha(),
+                      pygame.image.load("assets/rocket.bmp").convert_alpha()]
         for image in self.image:
             image.set_colorkey((0, 0, 0))
             pygame.Surface.convert_alpha(image)
@@ -179,8 +179,8 @@ class Rocket:
             
 class Wall:
     def __init__(self, x, y, direction, speed_y, constants):
-        self.image = [pygame.image.load("assets/bottom.bmp").convert(),
-                      pygame.image.load("assets/top.bmp").convert()]
+        self.image = [pygame.image.load("assets/bottom.bmp").convert_alpha(),
+                      pygame.image.load("assets/top.bmp").convert_alpha()]
         for image in self.image:
             image.set_colorkey((0, 0, 0))
             pygame.Surface.convert_alpha(image)
@@ -224,8 +224,8 @@ class Wall:
             
 class Laser:
     def __init__(self, x, y):
-        self.image = [pygame.image.load("assets/laser_off.bmp").convert(),
-                      pygame.image.load("assets/laser_on.bmp").convert()]
+        self.image = [pygame.image.load("assets/laser_off.bmp").convert_alpha(),
+                      pygame.image.load("assets/laser_on.bmp").convert_alpha()]
         for image in self.image:
             image.set_colorkey((0, 0, 0))
             pygame.Surface.convert_alpha(image)
@@ -325,11 +325,11 @@ class Mode_laser:
         
 class Character:
     def __init__(self, x, y):
-        self.image = [pygame.image.load("assets/beggining.bmp").convert(),
-                      pygame.image.load("assets/flying.bmp").convert(),
-                      pygame.image.load("assets/dead.bmp").convert(),
-                      pygame.image.load("assets/walk1.bmp").convert(),
-                      pygame.image.load("assets/walk2.bmp").convert()]
+        self.image = [pygame.image.load("assets/beggining.bmp").convert_alpha(),
+                      pygame.image.load("assets/flying.bmp").convert_alpha(),
+                      pygame.image.load("assets/dead.bmp").convert_alpha(),
+                      pygame.image.load("assets/walk1.bmp").convert_alpha(),
+                      pygame.image.load("assets/walk2.bmp").convert_alpha()]
         for image in self.image:
             image.set_colorkey((0, 0, 0))
             pygame.Surface.convert_alpha(image)
@@ -378,8 +378,8 @@ class Character:
         
 class Main_menu:
     def __init__(self):
-        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert()
-        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert()
+        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert_alpha()
+        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert_alpha()
         pygame.font.init()
         self.font = pygame.font.Font('font.ttf',70)
         self.change_window = False
@@ -411,8 +411,8 @@ class Main_menu:
             
 class GameOver:
     def __init__(self, counter):
-        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert()
-        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert()
+        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert_alpha()
+        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert_alpha()
         pygame.font.init()
         self.font = pygame.font.Font('font.ttf',70)
         self.change_window = False
@@ -448,8 +448,8 @@ class GameOver:
 
 class Game(object):
     def __init__(self):
-        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert()
-        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert()
+        self.edge_pavement = pygame.image.load("assets/edge_pavement.bmp").convert_alpha()
+        self.main_pavement = pygame.image.load("assets/main_pavement.bmp").convert_alpha()
         pygame.font.init()
         self.font = pygame.font.Font('font.ttf',70)
         self.change_window = False     
