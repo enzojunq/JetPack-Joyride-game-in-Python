@@ -86,7 +86,7 @@ class Constants:
         
         self.character_x = 65
         self.speed_walker = 20
-        self.gravity = self.v
+        self.gravity = self.v*2
         self.speed_player = self.v
 
 
@@ -425,7 +425,7 @@ class GameOver:
         clock.tick(60)
         self.display(screen, constants)
         keys = check_input()
-        if keys[K_UP]:
+        if keys[K_SPACE]:
             self.change_window = True
         
     def display(self, screen, constants):
@@ -482,7 +482,7 @@ class Game(object):
         
     def update(self, screen, time_loop, test=False):
         keys = check_input()
-        if keys[K_UP] and not self.player.dead:
+        if keys[K_SPACE] and not self.player.dead:
             self.player.up = 1
         pygame.time.delay(1)
         self.display(screen, time_loop)
